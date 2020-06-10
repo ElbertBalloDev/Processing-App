@@ -4,21 +4,31 @@ const filterAndTrim = (arr) => {
   return newArr;
 };
 
-const natPolicy = (block) => {
+const natPolicy = block => {
   return [
-    `nat-policy ${block.slice(6, 13).join(" ")}`,
+    `nat-policy ${block.slice(6, 14).join(" ")}`,
     `${block[2]}`,
-    `${block.slice(3, 6).join(" ")} ${block.slice(12, 15).join(" ")}`,
+    `${block[4]}`,
+    'exit',
+    `${block[3]} ${block[5]} ${block[14]}`
   ];
 };
 
-const accessRule = (block) => {
-  return [
-    `access-rule ${block.slice(4, 15).join(" ")}`,
+const accessRule = block => {
+  console.log(block)
+  const code = [];
+  code.push(
+    `access-rule ${block.slice(4, 11).join(" ")}`,
     `${block[2]}`,
     `${block[14]}`,
-    `${block.slice(15, 36).join(" ")}`,
-  ];
+    `${block[10]}`,
+    `${block[3]}`,
+  );
+  for(let i = 11; i < block.length; i++){
+    code.push(block[i]);
+  };
+  code.push('exit');
+  return code;
 };
 
 const format = (arr) => {
